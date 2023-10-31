@@ -10,6 +10,11 @@ RSpec.describe 'Subscriptions Index', type: :request do
   end
   let!(:other_user_subscription) { create(:subscription) } # Subscription for another user
 
+  before do
+    # Assuming you have a working login route and logic
+    post '/sessions', params: { email: user.email, password: user.password }
+  end
+
   describe 'GET /users/:user_id/subscriptions' do
     context 'when retrieving a user\'s subscriptions' do
       before { get "/users/#{user.id}/subscriptions" }

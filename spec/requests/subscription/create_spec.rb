@@ -6,6 +6,11 @@ RSpec.describe 'Subscriptions Creation', type: :request do
   let(:user) { create(:user) }
   let(:tea) { create(:tea) }
 
+  before do
+    # Assuming you have a working login route and logic
+    post '/sessions', params: { email: user.email, password: user.password }
+  end
+
   describe 'POST /users/:user_id/subscriptions' do
     context 'with valid parameters' do
       let(:valid_params) do
@@ -58,6 +63,7 @@ RSpec.describe 'Subscriptions Creation', type: :request do
         expect {
           post "/users/#{user.id}/subscriptions", params: invalid_params
         }.not_to change(Subscription, :count)
+        expect(JSON.parse(response.body)['errors']).to include("Title can't be blank")
       end
 
       it 'returns a 422 status code' do

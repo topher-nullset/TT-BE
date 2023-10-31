@@ -7,7 +7,9 @@ RSpec.describe 'User Creation', type: :request do
         first_name: 'Megan',
         last_name: 'McCarthy',
         email: 'megan@mccarthy.com',
-        address: '3462 Strawberry Rd. Anchorage AK 99502'
+        address: '3462 Strawberry Rd. Anchorage AK 99502',
+        password: 'test123test',
+        password_confirmation: 'test123test'
       }
     end
 
@@ -32,6 +34,10 @@ RSpec.describe 'User Creation', type: :request do
       it 'does not create a user with missing email' do
         post '/users', params: user_params.except(:email)
         expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+
+        expect(json["errors"]).to include("Email can't be blank")
+        expect(json["errors"]).to include("Email must be a valid email format")
         expect(User.count).to eq(0)
       end
     end
@@ -41,6 +47,9 @@ RSpec.describe 'User Creation', type: :request do
         User.create(user_params)
         post '/users', params: user_params
         expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+
+        expect(json["errors"]).to include("Email has already been taken")
         expect(User.count).to eq(1)
       end
     end

@@ -7,6 +7,11 @@ RSpec.describe 'Subscriptions Update', type: :request do
   let(:teasubscription) { create(:teasubscription, tea: tea1, subscription: subscription) }
   let(:tea2) { create(:tea) }
 
+  before do
+    # Assuming you have a working login route and logic
+    post '/sessions', params: { email: user.email, password: user.password }
+  end
+
   describe 'PATCH /users/:user_id/subscriptions/:id' do
     context 'with valid subscription details' do
       let(:valid_params) do
