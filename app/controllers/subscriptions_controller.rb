@@ -1,50 +1,70 @@
 class SubscriptionsController < ApplicationController
+  before_action :set_subscription, only: [:update]
+
+  def index
+    subscriptions = User.find(params[:user_id]).subscriptions.includes(:teas)
+    render json: subscriptions.as_json(include: :teas), status: 200
+  end
+
   def create
     subscription = Subscription.new(subscription_params.merge(user_id: params[:user_id]))
 
-    if subscription.save
-      tea = Tea.find_by(id: params[:subscription][:tea_id])
-      unless tea
-        render json: { errors: "Tea not found" }, status: 422
-        subscription.destroy
-        return
-      end
-
-      TeaSubscription.create!(subscription_id: subscription.id, tea_id: params[:subscription][:tea_id])
+    if subscription.save && add_tea_to_subscription(subscription, params[:subscription][:tea_id])
       render json: subscription, status: 201
     else
-      render json: { errors: subscription.errors.full_messages }, status: 422
+      # Rollback creation in case of failure
+      subscription.destroy if subscription.persisted?
+      render_errors(subscription)
     end
   end
 
   def update
-    subscription = Subscription.find(params[:id])
+    update_subscription_details if params[:subscription].present?
 
-    if params[:subscription].present?
-      subscription.update(subscription_params)
-    end
-    
-    if params[:add_tea_id]
-      tea = Tea.find(params[:add_tea_id])
-      subscription.teas << tea unless subscription.teas.include?(tea)
-    end
+    add_tea_to_subscription(@subscription, params[:add_tea_id]) if params[:add_tea_id]
+    remove_tea_from_subscription(params[:remove_tea_id]) if params[:remove_tea_id]
 
-    if params[:remove_tea_id]
-      tea = Tea.find(params[:remove_tea_id])
-      subscription.teas.delete(tea)
-    end
-
-    if subscription.save
-      render json: subscription, status: 200
+    if @subscription.errors.empty? && @subscription.save
+      render json: @subscription, status: 200
     else
-      render json: { errors: subscription.errors.full_messages }, status: 422
+      render_errors(@subscription)
     end
   end
 
-
   private
+
+  def render_errors(resource, custom_errors = [])
+    errors = resource&.errors&.full_messages || []
+    errors.concat(custom_errors)
+    render json: { errors: errors }, status: 422
+  end
+
+  def set_subscription
+    @subscription = Subscription.find_by(id: params[:id])
+    render_errors(nil, ["Subscription not found"]) unless @subscription
+  end
 
   def subscription_params
     params.require(:subscription).permit(:title, :price, :status, :frequency)
+  end
+
+  def update_subscription_details
+    @subscription.update(subscription_params)
+  end
+
+  def add_tea_to_subscription(subscription, tea_id)
+    tea = Tea.find_by(id: tea_id)
+    unless tea
+      subscription.errors.add(:tea, "not found")
+      return false
+    end
+
+    subscription.teas << tea unless subscription.teas.include?(tea)
+    true
+  end
+
+  def remove_tea_from_subscription(tea_id)
+    tea = Tea.find_by(id: tea_id)
+    @subscription.teas.delete(tea) if tea
   end
 end

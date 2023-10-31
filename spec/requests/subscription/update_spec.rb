@@ -44,13 +44,17 @@ RSpec.describe 'Subscriptions Update', type: :request do
 
     context 'when tea does not exist' do
       it 'returns an error' do
-        expect {
-          patch "/users/#{user.id}/subscriptions/#{subscription.id}", params: { add_tea_id: 9999 } # assuming 9999 doesn't exist
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        patch "/users/#{user.id}/subscriptions/#{subscription.id}", params: { add_tea_id: 9999 }
+        expect(response.status).to eq(422)
+        expect(JSON.parse(response.body)['errors']).to include("Tea not found")
       end
     end
 
-    # Additional error handling tests, such as validation errors, can go here.
-
+    context 'when subscription does not exist' do
+      it 'returns an error' do
+        patch "/users/#{user.id}/subscriptions/#{9999}", params: { title: 'Updated Subscription' }
+        expect(JSON.parse(response.body)['errors']).to include("Subscription not found")
+      end
+    end
   end
 end
