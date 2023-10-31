@@ -17,6 +17,31 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def update
+    subscription = Subscription.find(params[:id])
+
+    if params[:subscription].present?
+      subscription.update(subscription_params)
+    end
+    
+    if params[:add_tea_id]
+      tea = Tea.find(params[:add_tea_id])
+      subscription.teas << tea unless subscription.teas.include?(tea)
+    end
+
+    if params[:remove_tea_id]
+      tea = Tea.find(params[:remove_tea_id])
+      subscription.teas.delete(tea)
+    end
+
+    if subscription.save
+      render json: subscription, status: 200
+    else
+      render json: { errors: subscription.errors.full_messages }, status: 422
+    end
+  end
+
+
   private
 
   def subscription_params

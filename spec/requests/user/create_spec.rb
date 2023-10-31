@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'POST /users', type: :request do
-  describe 'User Creation' do
+RSpec.describe 'User Creation', type: :request do
+  describe 'POST /users' do
     let(:user_params) do
       {
         first_name: 'Megan',

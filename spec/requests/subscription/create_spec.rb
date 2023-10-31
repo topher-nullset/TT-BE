@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Subscriptions API', type: :request do
+RSpec.describe 'Subscriptions Creation', type: :request do
   let(:user) { create(:user) }
   let(:tea) { create(:tea) }
 
