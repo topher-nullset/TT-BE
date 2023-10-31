@@ -1,4 +1,5 @@
 class SubscriptionsController < ApplicationController
+  before_action :require_logged_in
   before_action :set_subscription, only: [:update]
 
   def index
