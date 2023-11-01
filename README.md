@@ -15,9 +15,9 @@
 <details closed>
 <summary>Fork and Clone</summary>
   
-![Fork]()
-![and]()
-![clone]()
+![Fork](./storage/fork.gif)
+![and](./storage/and.gif)
+![clone](./storage/clone.gif)
 
 </details>
 
