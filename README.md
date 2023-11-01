@@ -14,9 +14,10 @@
 
 <details closed>
 <summary>Fork and Clone</summary>
-<img src="https://giphy.com/embed/l1J3E1V1qv4pAc9zy" width="480" height="480" frameBorder="0" class="giphy-embed"><p><a href="https://giphy.com/gifs/design-experiment-fork-l1J3E1V1qv4pAc9zy">via GIPHY</a></p>
-<img src="https://giphy.com/embed/xTiN0pn9UrktJMnThu" width="480" height="320" frameBorder="0" class="giphy-embed"><p><a href="https://giphy.com/gifs/studiosoriginals-gilphabet-xTiN0pn9UrktJMnThu">via GIPHY</a></p>
-<img src="https://giphy.com/embed/TlK63EA6F1qRb7lll6M" width="480" height="480" frameBorder="0" class="giphy-embed"><p><a href="https://giphy.com/gifs/greggunn-animation-character-mythical-TlK63EA6F1qRb7lll6M">via GIPHY</a></p>
+  
+![Fork]()
+![and]()
+![clone]()
 
 </details>
 
