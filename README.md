@@ -1,7 +1,7 @@
 # README
 
 # Tea Time Backend (TTBe)
-### A Rails backend application for managing tea subscriptions.
+#### A Rails backend application for managing tea subscriptions.
 
 ## Features
 - User registration and authentication.
@@ -15,9 +15,9 @@
 <details closed>
 <summary>Fork and Clone</summary>
   
-![Fork](./storage/fork.gif)
-![and](./storage/and.gif)
-![clone](./storage/clone.gif)
+<img src="./storage/fork.gif" alt="Fork" width="200"/>
+<img src="./storage/ampersand.gif" alt="and" width="200"/>
+<img src="./storage/clone.gif" alt="clone" width="200"/>
 
 </details>
 
