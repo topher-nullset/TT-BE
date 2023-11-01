@@ -3,15 +3,14 @@ RSpec.describe 'Subscriptions Index', type: :request do
   let!(:teas) { create_list(:tea, 6) }
   let!(:subscriptions) do
     [
-      create(:subscription, user: user, teas: [teas[0]]),          # 1st tea
-      create(:subscription, user: user, teas: [teas[1], teas[2]]), # 2nd and 3rd teas
-      create(:subscription, user: user, teas: [teas[3], teas[4], teas[5]]) # 4th, 5th, and 6th teas
+      create(:subscription, user: user, teas: [teas[0]]),
+      create(:subscription, user: user, teas: [teas[1], teas[2]]),
+      create(:subscription, user: user, teas: [teas[3], teas[4], teas[5]])
     ]
   end
-  let!(:other_user_subscription) { create(:subscription) } # Subscription for another user
+  let!(:other_user_subscription) { create(:subscription) }
 
   before do
-    # Assuming you have a working login route and logic
     post '/sessions', params: { email: user.email, password: user.password }
   end
 
@@ -46,13 +45,12 @@ RSpec.describe 'Subscriptions Index', type: :request do
 
     context 'when user does not exist' do
       it 'returns an error' do
-        expect {
-          get "/users/9999/subscriptions" # assuming 9999 is an ID that doesn't exist
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get "/users/9999/subscriptions"
+        expect(response).to have_http_status(422)
+
+        json = JSON.parse(response.body)
+        expect(json['errors']).to include('User not found')
       end
     end
-
-    # You can add more edge cases or specific test scenarios as needed.
-
   end
 end

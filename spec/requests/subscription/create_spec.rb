@@ -1,5 +1,3 @@
-# spec/requests/subscriptions_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe 'Subscriptions Creation', type: :request do
@@ -7,7 +5,6 @@ RSpec.describe 'Subscriptions Creation', type: :request do
   let(:tea) { create(:tea) }
 
   before do
-    # Assuming you have a working login route and logic
     post '/sessions', params: { email: user.email, password: user.password }
   end
 
@@ -98,7 +95,7 @@ RSpec.describe 'Subscriptions Creation', type: :request do
 
       it 'returns a 422 status code' do
         post "/users/#{user.id}/subscriptions", params: params_without_tea
-        expect(response).to have_http_status(422) # or 422 if you add error handling for this case in the controller
+        expect(response).to have_http_status(422)
       end
     end
 
@@ -118,7 +115,7 @@ RSpec.describe 'Subscriptions Creation', type: :request do
       it 'returns an error message' do
         delete "/sessions/#{user.id}" # logout user
         post "/users/#{user.id}/subscriptions", params: params
-        
+
         expect(response).to have_http_status(401)
         expect(JSON.parse(response.body)['error']).to eq("You must be logged in to access this section")
       end

@@ -3,7 +3,14 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:update]
 
   def index
-    subscriptions = User.find(params[:user_id]).subscriptions.includes(:teas)
+    user = User.find_by(id: params[:user_id])
+
+    unless user
+      render_errors(nil, ["User not found"])
+      return
+    end
+
+    subscriptions = user.subscriptions.includes(:teas)
     render json: subscriptions.as_json(include: :teas), status: 200
   end
 
@@ -13,7 +20,6 @@ class SubscriptionsController < ApplicationController
     if subscription.save && add_tea_to_subscription(subscription, params[:subscription][:tea_id])
       render json: subscription, status: 201
     else
-      # Rollback creation in case of failure
       subscription.destroy if subscription.persisted?
       render_errors(subscription)
     end

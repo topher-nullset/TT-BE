@@ -7,7 +7,7 @@ RSpec.describe "User Sessions", type: :request do
     # Sad paths for logout
     context "when the user is not logged in" do
       it "returns an error" do
-        delete "/sessions/1" # The ID doesn't matter here since no user is logged in
+        delete "/sessions/1"
         expect(response).to have_http_status(:unauthorized)
 
         json = JSON.parse(response.body)

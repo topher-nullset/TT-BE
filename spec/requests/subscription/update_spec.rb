@@ -8,7 +8,6 @@ RSpec.describe 'Subscriptions Update', type: :request do
   let(:tea2) { create(:tea) }
 
   before do
-    # Assuming you have a working login route and logic
     post '/sessions', params: { email: user.email, password: user.password }
   end
 
