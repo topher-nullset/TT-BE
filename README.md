@@ -30,6 +30,14 @@ $ bundle install
 ```
 </details>
 
+<details closed>
+<summary>Build Database</summary>
+  
+```
+$ rails db:{create,migrate,seed}
+```
+</details>
+
 ## Testing
 Run tests using RSpec:
 - bundle exec rspec
