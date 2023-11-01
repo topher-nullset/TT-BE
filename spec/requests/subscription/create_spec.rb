@@ -96,9 +96,31 @@ RSpec.describe 'Subscriptions Creation', type: :request do
         }.not_to change(TeaSubscription, :count)
       end
 
-      it 'returns a 500 status code' do
+      it 'returns a 422 status code' do
         post "/users/#{user.id}/subscriptions", params: params_without_tea
         expect(response).to have_http_status(422) # or 422 if you add error handling for this case in the controller
+      end
+    end
+
+    context 'when user isn\'t logged in' do
+      let(:params) do
+        {
+          subscription: {
+            title: 'Premium Subscription',
+            price: 15.99,
+            status: 'active',
+            frequency: 'monthly',
+            tea_id: tea.id
+          }
+        }
+      end
+
+      it 'returns an error message' do
+        delete "/sessions/#{user.id}" # logout user
+        post "/users/#{user.id}/subscriptions", params: params
+        
+        expect(response).to have_http_status(401)
+        expect(JSON.parse(response.body)['error']).to eq("You must be logged in to access this section")
       end
     end
   end
