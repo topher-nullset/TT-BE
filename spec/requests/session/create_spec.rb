@@ -21,6 +21,17 @@ RSpec.describe "User Sessions", type: :request do
         json = JSON.parse(response.body)
         expect(json['error']).to eq("Invalid email/password combination")
       end
+
+      it 'does not allow a user to sign in multiple times' do
+        post sessions_path, params: { email: user.email, password: user.password }
+        expect(response).to have_http_status(:ok)
+
+        post sessions_path, params: { email: user.email, password: user.password }
+        expect(response).to have_http_status(:forbidden)
+        
+        json = JSON.parse(response.body)
+        expect(json['error']).to eq('User already logged in')
+      end
     end
 
     # Happy path for login

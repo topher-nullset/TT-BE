@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
   def create
+    if session[:user_id]
+      return render json: { error: 'User already logged in' }, status: :forbidden
+    end
+    
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])  # assuming you're using has_secure_password
       session[:user_id] = user.id
