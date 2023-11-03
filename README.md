@@ -59,15 +59,15 @@ Run tests using RSpec:
 <summary>Routes Format</summary>
 
 ```
-              teas GET    /teas(.:format)                                                teas#index
-          sessions POST   /sessions(.:format)                                           sessions#create
+               teas GET    /teas(.:format)                                               teas#index
+           sessions POST   /sessions(.:format)                                           sessions#create
             session DELETE /sessions/:id(.:format)                                       sessions#destroy
-user_subscriptions GET    /users/:user_id/subscriptions(.:format)                       subscriptions#index
+ user_subscriptions GET    /users/:user_id/subscriptions(.:format)                       subscriptions#index
                     POST   /users/:user_id/subscriptions(.:format)                       subscriptions#create
   user_subscription PATCH  /users/:user_id/subscriptions/:id(.:format)                   subscriptions#update
                     PUT    /users/:user_id/subscriptions/:id(.:format)                   subscriptions#update
               users POST   /users(.:format)                                              users#create
-              user PATCH  /users/:id(.:format)                                          users#update
+               user PATCH  /users/:id(.:format)                                          users#update
                     PUT    /users/:id(.:format)                                          users#update
 ```
 </details>
