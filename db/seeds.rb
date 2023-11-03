@@ -19,3 +19,5 @@ FactoryBot.create_list(:user, 100).each do |user|
     subscription.teas << teas
   end
 end
+
+p "Created #{Tea.count} teas and #{User.count} users with #{Subscription.count} total subscriptions with #{TeaSubscription.count} total tea-subscriptions"
