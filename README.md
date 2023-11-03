@@ -35,6 +35,8 @@ $ bundle install
   
 ```
 $ rails db:{create,migrate,seed}
+
+"Created 1000 teas and 100 users with 486 total subscriptions with 1465 total tea-subscriptions"
 ```
 </details>
 
