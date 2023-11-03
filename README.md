@@ -56,7 +56,7 @@ Run tests using RSpec:
   - Update a subscription
 
 <details closed>
-<sumary>Routes Format</summary>
+<summary>Routes Format</summary>
 
 ```
               teas GET    /teas(.:format)                                                teas#index
