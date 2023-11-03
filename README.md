@@ -44,18 +44,35 @@ Run tests using RSpec:
 
 ## Endpoints
 1. Teas
-  - List all teas: GET /teas (login not required)
+  - List all teas
 2. Users
-  - Register a user: POST /users
+  - Register a user
 3. Sessions
-  - Log in: POST /sessions
-  - Log out: DELETE /sessions/:id  (id is user id)
+  - Log in
+  - Log out
 4. Subscriptions (requires logged in)
-  - List all subscriptions for a user: GET /users/:user_id/subscriptions
-  - Create a subscription for a user: POST /users/:user_id/subscriptions
-  - Update a subscription: PATCH /users/:user_id/subscriptions/:id
+  - List all subscriptions for a user
+  - Create a subscription for a user
+  - Update a subscription
+
+<details closed>
+<sumary>Routes Format</summary>
+
+```
+              teas GET    /teas(.:format)                                                teas#index
+          sessions POST   /sessions(.:format)                                           sessions#create
+            session DELETE /sessions/:id(.:format)                                       sessions#destroy
+user_subscriptions GET    /users/:user_id/subscriptions(.:format)                       subscriptions#index
+                    POST   /users/:user_id/subscriptions(.:format)                       subscriptions#create
+  user_subscription PATCH  /users/:user_id/subscriptions/:id(.:format)                   subscriptions#update
+                    PUT    /users/:user_id/subscriptions/:id(.:format)                   subscriptions#update
+              users POST   /users(.:format)                                              users#create
+              user PATCH  /users/:id(.:format)                                          users#update
+                    PUT    /users/:id(.:format)                                          users#update
+```
+</details>
 
 ## Future Improvements
- Add pagination to the subscriptions list.
- Integrate with a payment gateway for subscription payments.
-Add a frontend application for managing subscriptions.
+- Add pagination to the subscriptions list.
+- Integrate with a payment gateway for subscription payments.
+- Add a frontend application for managing subscriptions.
